@@ -6,6 +6,8 @@ import { registrationGuardian } from "@/lib/inngest/functions/registration-guard
 import { revenueSentinel } from "@/lib/inngest/functions/revenue-sentinel";
 import { fixtureIntelligence } from "@/lib/inngest/functions/fixture-intelligence";
 import { contentEngine } from "@/lib/inngest/functions/content-engine";
+import { memberRetention } from "@/lib/inngest/functions/member-retention";
+import { smartScheduler } from "@/lib/inngest/functions/smart-scheduler";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
@@ -16,5 +18,7 @@ export const { GET, POST, PUT } = serve({
     revenueSentinel,
     fixtureIntelligence,
     contentEngine,
+    memberRetention,
+    smartScheduler,
   ],
 });

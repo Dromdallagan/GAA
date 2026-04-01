@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { formatE164, hashPhone } from "@/lib/utils/phone";
 import { stripe } from "@/lib/stripe/client";
 import { createCheckoutSession } from "@/lib/stripe/connect";
+import { sendWelcomeEmail } from "@/lib/email/send";
 
 // ---------------------------------------------------------------------------
 // Validation
@@ -145,6 +146,13 @@ export async function registerMember(
   if (insertError) {
     return { message: `Failed to register member: ${insertError.message}` };
   }
+
+  // Send welcome email (fire-and-forget)
+  sendWelcomeEmail({
+    to: result.data.email,
+    memberName: `${result.data.first_name} ${result.data.last_name}`,
+    orgName: org.name,
+  }).catch(() => {}); // Don't block registration on email failure
 
   // Generate checkout URL if Stripe is fully configured
   const settings = (org.settings ?? {}) as Record<string, unknown>;

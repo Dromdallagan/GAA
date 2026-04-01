@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { constructStripeEvent } from "@/lib/stripe/webhook";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendReceiptEmail } from "@/lib/email/send";
 import type Stripe from "stripe";
 
 export async function POST(request: NextRequest) {
@@ -98,6 +99,32 @@ async function handlePaymentCheckout(
       currency: session.currency,
     },
   });
+
+  // Send receipt email
+  if (session.customer_email) {
+    const { data: member } = await supabase
+      .from("members")
+      .select("first_name, last_name")
+      .eq("id", memberId)
+      .single();
+
+    const { data: org } = await supabase
+      .from("organizations")
+      .select("name")
+      .eq("id", orgId)
+      .single();
+
+    if (member && org) {
+      sendReceiptEmail({
+        to: session.customer_email,
+        memberName: `${member.first_name ?? ""} ${member.last_name ?? ""}`.trim(),
+        orgName: org.name,
+        membershipType: (membershipType ?? "membership").charAt(0).toUpperCase() + (membershipType ?? "membership").slice(1),
+        amount: ((session.amount_total ?? 0) / 100).toFixed(2),
+        currency: session.currency ?? "gbp",
+      }).catch(() => {}); // Fire-and-forget
+    }
+  }
 }
 
 async function handleSubscriptionCheckout(
