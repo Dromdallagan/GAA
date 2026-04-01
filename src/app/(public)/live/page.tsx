@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Live Scores | ClubOS",
 };
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 export default async function PublicLivePage() {
   const supabase = createAdminClient();

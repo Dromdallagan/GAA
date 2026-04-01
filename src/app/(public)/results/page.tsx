@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = { title: "Results | ClubOS" };
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function PublicResultsPage() {
   const supabase = createAdminClient();
