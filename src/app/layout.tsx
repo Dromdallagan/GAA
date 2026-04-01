@@ -4,10 +4,6 @@ import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "ClubOS",
@@ -22,7 +18,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("dark", GeistSans.variable, GeistMono.variable, "font-sans", geist.variable)}
+      className={`${GeistSans.variable} ${GeistMono.variable} dark`}
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-screen bg-background font-sans antialiased">
