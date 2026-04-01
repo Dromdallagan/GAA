@@ -61,7 +61,8 @@
       "mcp__plugin_playwright_playwright__browser_wait_for",
       "mcp__claude_ai_Supabase__get_logs",
       "Bash(powershell.exe:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")"
     ]
   }
 }
