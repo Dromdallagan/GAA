@@ -53,6 +53,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       org_users: {
         Row: {
@@ -82,6 +83,7 @@ export type Database = {
           permissions?: Record<string, unknown>;
           created_at?: string;
         };
+        Relationships: [];
       };
       members: {
         Row: {
@@ -144,6 +146,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       venues: {
         Row: {
@@ -179,6 +182,7 @@ export type Database = {
           facilities?: Record<string, unknown>;
           created_at?: string;
         };
+        Relationships: [];
       };
       competitions: {
         Row: {
@@ -217,6 +221,7 @@ export type Database = {
           settings?: Record<string, unknown>;
           created_at?: string;
         };
+        Relationships: [];
       };
       teams: {
         Row: {
@@ -249,6 +254,7 @@ export type Database = {
           manager_id?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       fixtures: {
         Row: {
@@ -320,6 +326,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       match_events: {
         Row: {
@@ -355,6 +362,7 @@ export type Database = {
           description?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       subscriptions: {
         Row: {
@@ -405,6 +413,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       conversations: {
         Row: {
@@ -440,6 +449,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       agent_runs: {
         Row: {
@@ -475,6 +485,7 @@ export type Database = {
           next_run_at?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       content_queue: {
         Row: {
@@ -516,6 +527,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       message_costs: {
         Row: {
@@ -563,6 +575,7 @@ export type Database = {
           billed?: boolean;
           created_at?: string;
         };
+        Relationships: [];
       };
       revenue_reports: {
         Row: {
@@ -613,6 +626,7 @@ export type Database = {
           settlement_reference?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       audit_log: {
         Row: {
@@ -651,6 +665,7 @@ export type Database = {
           ip_address?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
     };
     Views: Record<string, never>;
