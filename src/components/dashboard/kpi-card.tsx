@@ -10,8 +10,8 @@ interface KpiCardProps {
   title: string;
   value: number;
   format?: (n: number) => string;
-  trend: number;
-  sparklineData: number[];
+  trend?: number | null;
+  sparklineData?: number[];
   icon: ReactNode;
   className?: string;
 }
@@ -26,8 +26,11 @@ export function KpiCard({
   className,
 }: KpiCardProps) {
   const gradientId = useId().replace(/:/g, "");
-  const trendPositive = trend > 0;
-  const trendNeutral = trend === 0;
+  const hasTrend = trend !== undefined && trend !== null;
+  const hasSparkline = sparklineData && sparklineData.length > 0;
+  const trendValue = trend ?? 0;
+  const trendPositive = trendValue > 0;
+  const trendNeutral = trendValue === 0;
   const trendColor = trendPositive
     ? "text-success"
     : trendNeutral
@@ -44,7 +47,9 @@ export function KpiCard({
       ? "var(--color-muted-foreground)"
       : "var(--color-destructive)";
 
-  const data = sparklineData.map((v, i) => ({ value: v, i }));
+  const data = hasSparkline
+    ? sparklineData.map((v, i) => ({ value: v, i }))
+    : [];
 
   return (
     <div
@@ -55,30 +60,32 @@ export function KpiCard({
       )}
     >
       {/* Background sparkline */}
-      <div className="absolute inset-x-0 bottom-0 h-16 opacity-[0.15]">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data}
-            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={chartColor} stopOpacity={0.6} />
-                <stop offset="100%" stopColor={chartColor} stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke={chartColor}
-              strokeWidth={1.5}
-              fill={`url(#${gradientId})`}
-              dot={false}
-              isAnimationActive={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      {hasSparkline ? (
+        <div className="absolute inset-x-0 bottom-0 h-16 opacity-[0.15]">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={data}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={chartColor} stopOpacity={0.6} />
+                  <stop offset="100%" stopColor={chartColor} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke={chartColor}
+                strokeWidth={1.5}
+                fill={`url(#${gradientId})`}
+                dot={false}
+                isAnimationActive={false}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      ) : null}
 
       {/* Content */}
       <div className="relative flex items-start justify-between">
@@ -91,16 +98,18 @@ export function KpiCard({
             format={format}
             className="block text-2xl font-bold tracking-tight font-mono"
           />
-          <div
-            className={cn(
-              "flex items-center gap-1 text-xs font-medium",
-              trendColor
-            )}
-          >
-            <TrendIcon className="h-3 w-3" />
-            <span>{Math.abs(trend)}%</span>
-            <span className="text-muted-foreground">vs last month</span>
-          </div>
+          {hasTrend ? (
+            <div
+              className={cn(
+                "flex items-center gap-1 text-xs font-medium",
+                trendColor
+              )}
+            >
+              <TrendIcon className="h-3 w-3" />
+              <span>{Math.abs(trendValue)}%</span>
+              <span className="text-muted-foreground">vs last month</span>
+            </div>
+          ) : null}
         </div>
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           {icon}

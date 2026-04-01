@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, MapPin, Trophy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CalendarDays, MapPin, Plus, Trophy } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -112,11 +114,17 @@ export function FixturesList({ fixtures }: FixturesListProps) {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Fixtures</h1>
-        <p className="text-sm text-muted-foreground">
-          View and track all matches across your county.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Fixtures</h1>
+          <p className="text-sm text-muted-foreground">
+            View and track all matches across your county.
+          </p>
+        </div>
+        <Button size="sm" render={<Link href="/admin/fixtures/new" />}>
+          <Plus className="h-3.5 w-3.5" data-icon="inline-start" />
+          New Fixture
+        </Button>
       </div>
 
       {/* Filter Tabs */}
@@ -159,9 +167,10 @@ export function FixturesList({ fixtures }: FixturesListProps) {
             const isScored = status === "completed" || status === "live";
 
             return (
-              <div
+              <Link
                 key={fixture.id}
-                className="rounded-xl border border-border/50 bg-card p-5 transition-all duration-200 hover:border-border/80"
+                href={`/admin/fixtures/${fixture.id}`}
+                className="block rounded-xl border border-border/50 bg-card p-5 transition-all duration-200 hover:border-border/80 hover:shadow-lg hover:shadow-black/10"
               >
                 {/* Top row: competition + status */}
                 <div className="mb-3 flex items-center justify-between">
@@ -230,7 +239,7 @@ export function FixturesList({ fixtures }: FixturesListProps) {
                     </div>
                   ) : null}
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
